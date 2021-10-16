@@ -11,7 +11,5 @@ public class MyBot {
     Mono<Void> login = client.withGateway((GatewayDiscordClient gateway) -> Mono.empty());
 
     login.block();
-
-    // Branch testing
   }
 }
