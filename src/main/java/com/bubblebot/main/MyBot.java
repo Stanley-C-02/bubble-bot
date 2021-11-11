@@ -9,7 +9,7 @@ import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.lifecycle.ReadyEvent;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
-import discord4j.core.object.entity.User;
+import discord4j.core.object.entity.channel.MessageChannel;
 import reactor.core.publisher.Mono;
 
 import java.util.Locale;
@@ -29,26 +29,10 @@ public class MyBot {
       // ReadyEvent example
       // handled by printing the username and discriminator (tag) of the 'self user',
       // which is the user associated w/ the bot account
-      Mono<Void> handleReadyEvent = gateway.on(ReadyEvent.class, event ->
-        Mono.fromRunnable(() -> {
-          final User self = event.getSelf();
-          System.out.printf("Successfully logged in as %s#%s%n", self.getUsername(), self.getDiscriminator());
-        })
-      ).then();
+      Mono<Void> handleReadyEvent = gateway.on(ReadyEvent.class, EventHandler::handleReady).then();
 
       // MessageCreateEvent example
-      Mono<Void> handleMessageCreate = gateway.on(MessageCreateEvent.class, event -> {
-        Message message = event.getMessage();
-
-        switch(message.getContent().toLowerCase(Locale.ROOT)) {
-          case "!help":
-            return message.getChannel().flatMap(channel -> channel.createMessage("My name is Bubble Bot!"));
-          case "!ping":
-            return message.getChannel().flatMap(channel -> channel.createMessage("pong!"));
-          default:
-            return Mono.empty();
-        }
-      }).then();
+      Mono<Void> handleMessageCreate = gateway.on(MessageCreateEvent.class, EventHandler::handleMessageCreate).then();
 
       // Combine commands
       return handleReadyEvent.and(handleMessageCreate);
