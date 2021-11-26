@@ -8,16 +8,12 @@ import discord4j.core.DiscordClient;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.lifecycle.ReadyEvent;
 import discord4j.core.event.domain.message.MessageCreateEvent;
-import discord4j.core.object.entity.Message;
-import discord4j.core.object.entity.channel.MessageChannel;
 import reactor.core.publisher.Mono;
-
-import java.util.Locale;
 
 public class MyBot {
   public static void main(String[] args) {
     // DiscordClient only provides operations while not logged in
-    DiscordClient client = DiscordClient.create(Token.TOKEN);
+    DiscordClient client = DiscordClient.create(Token.DISCORD_TOKEN);
 
     // GatewayDiscordClient provides connection
     // Invokes given function
