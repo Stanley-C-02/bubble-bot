@@ -1,5 +1,6 @@
 package com.bubblebot.main;
 
+import discord4j.core.event.domain.Event;
 import discord4j.core.event.domain.lifecycle.ReadyEvent;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
@@ -8,19 +9,22 @@ import discord4j.core.object.entity.channel.MessageChannel;
 import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class EventHandler {
-  private Map<String[], Consumer<?>> commands;
+  private Map<String[], Function<? extends Event, Mono<?>>> commands;
 
   EventHandler() {
     this.commands = new HashMap<>();
 
-    this.commands.put(new String[] { "b!help" }, (event) -> {return event});
+    this.commands.put(new String[] { "b!help", "b!?" }, (event) ->
+    {
+      Message message = event.getMessage();
+      Mono<MessageChannel> channelMono = message.getChannel();
+      return channelMono.flatMap(channel -> channel.createMessage(String.format("My name is Bubble Bot!%nProper commands include:%n```- b!help%n- b!ping```")));
+    });
     this.commands.put(new String[] { "b!ping" }, (event) -> {return event});
     this.commands.put(new String[] { "b!exit x" }, (event) -> {return event});
   }
@@ -36,6 +40,9 @@ public class EventHandler {
     Message message = event.getMessage();
     Mono<MessageChannel> channelMono = message.getChannel();
     String usercmd = message.getContent().toLowerCase(Locale.ROOT);
+
+    Function<?, ?> func = this.parseUserCommand(usercmd);
+
 
     switch(usercmd) {
       case "b!help":
@@ -53,10 +60,7 @@ public class EventHandler {
     }
   }
 
-  Mono<?> parseUserCommand(String s) {
-    if(this.commands.indexOf(s) == -1) {
-      // invalid command entered
-    }
-    return null;
+  Function<?, ?> parseUserCommand(String s) {
+    return this.commands.get(s);
   }
 }
