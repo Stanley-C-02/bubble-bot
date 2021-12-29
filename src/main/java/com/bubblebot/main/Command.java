@@ -1,5 +1,6 @@
 package com.bubblebot.main;
 
+import java.util.Arrays;
 import java.util.function.Consumer;
 
 public class Command {
