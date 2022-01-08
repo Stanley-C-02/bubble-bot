@@ -6,12 +6,21 @@ package com.bubbobot.main;
 
 import discord4j.core.DiscordClientBuilder;
 import discord4j.core.GatewayDiscordClient;
+import discord4j.core.event.domain.Event;
 import discord4j.core.event.domain.lifecycle.ReadyEvent;
 import discord4j.core.event.domain.message.MessageCreateEvent;
+import discord4j.core.event.domain.message.ReactionAddEvent;
 import discord4j.core.object.entity.User;
+import discord4j.core.object.reaction.ReactionEmoji;
+import discord4j.core.spec.EmbedCreateFields;
+import discord4j.core.spec.EmbedCreateSpec;
+import discord4j.core.spec.MessageCreateSpec;
+import discord4j.rest.util.Color;
+import discord4j.voice.AudioProvider;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Instant;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -29,22 +38,39 @@ public class BubboBot {
 
     Command help = event -> event.getMessage().getChannel()
       .flatMap(channel -> channel.createMessage(
-        String.format("Valid commands include:%n%s",
+        String.format("can perform these commands:%n%s",
           this.commands.keySet().stream()
             .sorted()
             .map(cmd -> String.format("%s%s", BubboBot.cmdPrefix, cmd))
             .collect(Collectors.joining(", ")))))
       .then();
 
-    commands.put("?", help);
+    this.commands.put("?", help);
 
-    commands.put("help", help);
+    this.commands.put("help", help);
 
-    commands.put("ping", event -> event.getMessage().getChannel()
-      .flatMap(channel -> channel.createMessage("Pong!"))
-      .then());
+    this.commands.put("embed", event -> event.getMessage().getChannel()
+      .flatMap(channel -> channel
+        .createMessage(
+          EmbedCreateSpec.builder()
+            .addField("Inline Field", String.format("Two%nlines"), true)
+            .addField("Inline Too", "yay", true)
+            .addField("I am also inline", "I am happy", true)
+            .addField("But not me", "sadly", false)
+            .addField("\u200B", "\u200B", false)
+            .color(Color.CYAN)
+            .title("Embed Title with URL!")
+            .url("https://discord4j.com")
+            .author("Author Here (Google)", "https://www.google.com/", "https://icon-library.com/images/ios-settings-icon/ios-settings-icon-24.jpg") // top left
+            .description("Lorem ipsum just kidding... here is the description")
+            .thumbnail("https://vectorified.com/images/instagram-icon-black-white-26.jpg") // top right
+            .image("https://i.imgur.com/F9BhEoz.png") // large
+            .timestamp(Instant.EPOCH)
+            .footer("Footer Text", "https://image.flaticon.com/icons/png/512/32/32206.png") // bottom left
+            .build())
+        .then()));
 
-    commands.put("time", event -> event.getMessage().getChannel()
+    this.commands.put("time", event -> event.getMessage().getChannel()
       .flatMap(channel -> channel.createMessage("It is currently " + LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss a"))))
       .then());
   }
@@ -74,28 +100,5 @@ public class BubboBot {
       .subscribe();
 
     client.onDisconnect().block();
-//    // DiscordClient only provides operations while not logged in
-//    DiscordClient client = DiscordClient.create(Token.DISCORD_TOKEN);
-//
-//    // GatewayDiscordClient provides connection
-//    // Invokes given function
-//
-//    // returning Mono.empty() does "nothing"
-//    // Mono<Void> login = client.withGateway((GatewayDiscordClient gateway) -> Mono.empty());
-//
-//    Mono<Void> login = client.withGateway((GatewayDiscordClient gateway) -> {
-//      EventHandler handler = new EventHandler();
-//      // ReadyEvent example
-//      // handled by printing the username and discriminator (tag) of the 'self user',
-//      // which is the user associated w/ the bubboBot account
-//      Mono<Void> handleReadyEvent = gateway.on(ReadyEvent.class, handler::handleReady).then();
-//
-//      // MessageCreateEvent example
-//      Mono<Void> handleMessageCreate = gateway.on(MessageCreateEvent.class, handler::handleMessageCreate).then();
-//
-//      // Combine commands
-//      return handleReadyEvent.and(handleMessageCreate);
-//    })
-//    login.block();
   }
 }
