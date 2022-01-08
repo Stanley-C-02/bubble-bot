@@ -1,5 +1,5 @@
 # Bubble Bot
-A simple Discord bot made using the Discord4J API.
+A simple Discord bubboBot made using the Discord4J API.
 
 Gradle is used to manage the Discord4J dependency.
 

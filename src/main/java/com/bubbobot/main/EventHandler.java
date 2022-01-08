@@ -1,4 +1,4 @@
-package com.bubblebot.main;
+package com.bubbobot.main;
 
 import discord4j.core.event.domain.Event;
 import discord4j.core.event.domain.lifecycle.ReadyEvent;
@@ -8,25 +8,27 @@ import discord4j.core.object.entity.User;
 import discord4j.core.object.entity.channel.MessageChannel;
 import reactor.core.publisher.Mono;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.function.Function;
 
 public class EventHandler {
-  private Map<String[], Function<? extends Event, Mono<?>>> commands;
+  private Map<String[], Function<Event, Mono<?>>> commands;
 
   EventHandler() {
     this.commands = new HashMap<>();
 
     this.commands.put(new String[] { "b!help", "b!?" }, (event) ->
     {
-      Message message = event.getMessage();
+      MessageCreateEvent e = (MessageCreateEvent)event;
+      Message message = e.getMessage();
       Mono<MessageChannel> channelMono = message.getChannel();
-      return channelMono.flatMap(channel -> channel.createMessage(String.format("My name is Bubble Bot!%nProper commands include:%n```- b!help%n- b!ping```")));
+      return channelMono.flatMap(channel -> channel.createMessage(String.format("My name is Bubble BubboBot!%nProper commands include:%n```- b!help%n- b!ping```")));
     });
-    this.commands.put(new String[] { "b!ping" }, (event) -> {return event});
-    this.commands.put(new String[] { "b!exit x" }, (event) -> {return event});
+    this.commands.put(new String[] { "b!ping" }, (event) -> null);
+    this.commands.put(new String[] { "b!exit x" }, (event) -> null);
   }
 
   Mono<?> handleReady(ReadyEvent event) {
@@ -41,12 +43,21 @@ public class EventHandler {
     Mono<MessageChannel> channelMono = message.getChannel();
     String usercmd = message.getContent().toLowerCase(Locale.ROOT);
 
-    Function<?, ?> func = this.parseUserCommand(usercmd);
+    Function<Event, Mono<?>> func = this.parseUserCommand(usercmd);
 
+//    if(func == null) {
+//      if(usercmd.matches("^b!.*$")) {
+//        return channelMono.flatMap(channel -> channel.createMessage("Enter `b!help` to get all commands"));
+//      } else {
+//        return Mono.empty();
+//      }
+//    } else {
+//      return func.apply(event);
+//    }
 
     switch(usercmd) {
       case "b!help":
-        return channelMono.flatMap(channel -> channel.createMessage(String.format("My name is Bubble Bot!%nProper commands include:%n```- b!help%n- b!ping```")));
+        return channelMono.flatMap(channel -> channel.createMessage(String.format("My name is Bubble BubboBot!%nProper commands include:%n```- b!help%n- b!ping```")));
       case "b!ping":
         return channelMono.flatMap(channel -> channel.createMessage("pong!"));
       case "b!exit x":
@@ -60,7 +71,12 @@ public class EventHandler {
     }
   }
 
-  Function<?, ?> parseUserCommand(String s) {
-    return this.commands.get(s);
+  Function<Event, Mono<?>> parseUserCommand(String s) {
+    Function<Event, Mono<?>> func = this.commands.entrySet().stream()
+      .filter(entry -> Arrays.asList(entry.getKey()).contains(s))
+      .map(entry -> entry.getValue())
+      .findFirst()
+      .orElse(null);
+    return func;
   }
 }
