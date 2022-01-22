@@ -1,4 +1,4 @@
-package com.bubbobot.main;
+package com.bubblebot.main;
 
 import discord4j.core.event.domain.Event;
 import discord4j.core.event.domain.lifecycle.ReadyEvent;
@@ -25,7 +25,7 @@ public class EventHandler {
       MessageCreateEvent e = (MessageCreateEvent)event;
       Message message = e.getMessage();
       Mono<MessageChannel> channelMono = message.getChannel();
-      return channelMono.flatMap(channel -> channel.createMessage(String.format("My name is Bubble BubboBot!%nProper commands include:%n```- b!help%n- b!ping```")));
+      return channelMono.flatMap(channel -> channel.createMessage(String.format("My name is Bubble BubbleBot!%nProper commands include:%n```- b!help%n- b!ping```")));
     });
     this.commands.put(new String[] { "b!ping" }, (event) -> null);
     this.commands.put(new String[] { "b!exit x" }, (event) -> null);
@@ -57,7 +57,7 @@ public class EventHandler {
 
     switch(usercmd) {
       case "b!help":
-        return channelMono.flatMap(channel -> channel.createMessage(String.format("My name is Bubble BubboBot!%nProper commands include:%n```- b!help%n- b!ping```")));
+        return channelMono.flatMap(channel -> channel.createMessage(String.format("My name is Bubble BubbleBot!%nProper commands include:%n```- b!help%n- b!ping```")));
       case "b!ping":
         return channelMono.flatMap(channel -> channel.createMessage("pong!"));
       case "b!exit x":

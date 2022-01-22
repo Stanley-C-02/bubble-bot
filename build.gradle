@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group 'org.example'
+group 'com.bubbobot'
 version '1.0-SNAPSHOT'
 
 repositories {
@@ -10,15 +10,12 @@ repositories {
 }
 
 dependencies {
-    //testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    //testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
-
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
     implementation 'com.discord4j:discord4j-core:3.2.1'
-    //implementation "com.merakianalytics.orianna:orianna:4.0.0-rc8"
+    implementation 'com.merakianalytics.orianna:orianna:4.0.0-rc8'
 }
 
-/*
 test {
     useJUnitPlatform()
 }
-*/
