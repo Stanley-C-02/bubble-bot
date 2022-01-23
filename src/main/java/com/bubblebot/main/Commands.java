@@ -1,10 +1,11 @@
-package com.bubblebot.main.Commands;
+package com.bubblebot.main;
 
-import com.bubblebot.main.BubbleBot;
 import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.rest.util.Color;
 import reactor.core.publisher.Mono;
 
+import javax.xml.crypto.dsig.keyinfo.KeyValue;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.time.Instant;
 import java.util.Arrays;
@@ -12,6 +13,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * uses the java reflection api
