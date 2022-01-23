@@ -1,4 +1,4 @@
-package com.bubblebot.main;
+package com.bubblebot.main.Commands;
 
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import reactor.core.publisher.Mono;
