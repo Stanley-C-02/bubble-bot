@@ -4,15 +4,13 @@ package com.bubblebot.main;
  * A discord bot made using Discord4J
  */
 
+import com.bubblebot.main.Commands.Command;
+import com.bubblebot.main.Commands.Commands;
 import com.merakianalytics.orianna.Orianna;
 import com.merakianalytics.orianna.types.common.Platform;
 import com.merakianalytics.orianna.types.common.Region;
-import com.merakianalytics.orianna.types.common.Side;
 import com.merakianalytics.orianna.types.core.championmastery.ChampionMasteries;
-import com.merakianalytics.orianna.types.core.match.Match;
 import com.merakianalytics.orianna.types.core.match.MatchHistory;
-import com.merakianalytics.orianna.types.core.match.Participant;
-import com.merakianalytics.orianna.types.core.match.Team;
 import com.merakianalytics.orianna.types.core.summoner.Summoner;
 import com.merakianalytics.orianna.types.core.championmastery.ChampionMastery;
 import discord4j.core.DiscordClientBuilder;
@@ -20,25 +18,18 @@ import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.lifecycle.ReadyEvent;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.User;
-import discord4j.core.spec.EmbedCreateSpec;
-import discord4j.rest.util.Color;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.time.Instant;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class BubbleBot {
-  static String cmdPrefix = "b!";
+  public static String cmdPrefix = "b!";
 
   private final Map<String, Command> commands;
 
