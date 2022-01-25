@@ -73,13 +73,13 @@ public class LeagueCommand implements SlashCommand {
     if(!summoner.exists()) return String.format("%s does not exist on the %s server", summoner.getName(), summoner.getRegion());
 
     final Champions champions = Orianna.getChampions();
-    final Champion randomChampion = champions.get((int)Math.random() * champions.size());
+    final Champion randomChampion = champions.get((int)(Math.random() * champions.size()));
     final League challengerLeague = Orianna.challengerLeagueInQueue(Queue.RANKED_SOLO).get();
     final Summoner bestNA = challengerLeague.get(0).getSummoner();
 
     String info = String.format("%s is level %d on the %s server%n", summoner.getName(), summoner.getLevel(), summoner.getRegion());
-    info += String.format("They play champions such as %s%n", randomChampion.getName());
-    info += String.format("But are not as good as %s at League", bestNA.getName());
+    info += String.format("Playing champions such as %s%n", randomChampion.getName());
+    info += String.format("But are not as good as %s (%d LP) at League", bestNA.getName(), bestNA.getLeague(Queue.RANKED_SOLO).get(0).getLeaguePoints());
 
     return info;
   }

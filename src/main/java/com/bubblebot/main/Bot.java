@@ -6,19 +6,14 @@ package com.bubblebot.main;
 
 import com.merakianalytics.orianna.Orianna;
 import com.merakianalytics.orianna.types.common.Platform;
-import com.merakianalytics.orianna.types.common.Queue;
 import com.merakianalytics.orianna.types.common.Region;
-import com.merakianalytics.orianna.types.core.league.League;
-import com.merakianalytics.orianna.types.core.staticdata.Champion;
-import com.merakianalytics.orianna.types.core.staticdata.Champions;
-import com.merakianalytics.orianna.types.core.summoner.Summoner;
 import discord4j.core.DiscordClientBuilder;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import discord4j.core.event.domain.lifecycle.ReadyEvent;
 import discord4j.core.object.entity.User;
 
-import java.util.Locale;
+import java.util.Scanner;
 
 /**
  * Initializes the bot, commands, and listeners to handle functionality
@@ -33,6 +28,7 @@ public class Bot {
       .block();
 
     final long guildId = 898745468878745631L; // My Testing server
+//    final long guildId = Long.parseLong(System.getenv("SERVER_ID")); // My Testing server
     Orianna.setDefaultRegion(Region.NORTH_AMERICA);
     Orianna.setDefaultPlatform(Platform.NORTH_AMERICA);
 
@@ -52,6 +48,10 @@ public class Bot {
       .flatMap(SlashCommandListener::handle)
       .subscribe();
 
-    client.onDisconnect().block();
+    Scanner reader = new Scanner(System.in);
+    while(!reader.next().equalsIgnoreCase("exit"))
+      System.out.println("Enter exit to stop bot");
+    System.out.println("EXITING");
+//    client.onDisconnect().block();
   }
 }
