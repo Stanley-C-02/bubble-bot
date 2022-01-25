@@ -20,7 +20,7 @@
             },
             {
               "name": "region",
-              "description": "Region to search",
+              "description": "Region to search // IGNORED",
               "type": 3
             }
           ]

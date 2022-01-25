@@ -1,5 +1,7 @@
 package com.bubblebot.main.commands;
 
+import com.merakianalytics.orianna.Orianna;
+import com.merakianalytics.orianna.types.core.summoner.Summoner;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import discord4j.core.object.command.ApplicationCommand;
 import discord4j.core.object.command.ApplicationCommandInteractionOption;
@@ -29,19 +31,19 @@ public class LeagueCommand implements SlashCommand {
   @Override
   public Mono<Void> handle(ChatInputInteractionEvent event) {
     ApplicationCommandInteractionOption tempOption = event.getOptions().get(0);
-    System.out.println("EVENT:");
-    System.out.println(event.getCommandName());
-    System.out.println(event.getCommandType().name());
+//    System.out.println("EVENT:");
+//    System.out.println(event.getCommandName());
+//    System.out.println(event.getCommandType().name());
 
     final String option1 = tempOption.getName();
-    System.out.println("OPTION:");
-    System.out.println(tempOption.getName());
-    System.out.println(tempOption.getType().name());
+//    System.out.println("OPTION:");
+//    System.out.println(tempOption.getName());
+//    System.out.println(tempOption.getType().name());
 
     tempOption = tempOption.getOptions().get(0);
-    System.out.println("OPTION:");
-    System.out.println(tempOption.getName());
-    System.out.println(tempOption.getType().name());
+//    System.out.println("OPTION:");
+//    System.out.println(tempOption.getName());
+//    System.out.println(tempOption.getType().name());
 
     final String option2 = tempOption.getName();
 
@@ -60,9 +62,14 @@ public class LeagueCommand implements SlashCommand {
   }
 
   private Mono<Void> getSummoner(final ChatInputInteractionEvent event, final String name, final String region) {
+    final Summoner summoner = Orianna.summonerNamed(name).get();
+    final String info = summoner.exists() ?
+      String.format("%s is level %d on the %s server", summoner.getName(), summoner.getLevel(), summoner.getRegion()) :
+      String.format("%s does not exist on the %s server", summoner.getName(), summoner.getRegion());
+
     return event.reply()
       .withEphemeral(true)
-      .withContent("getSummoner TO BE IMPLEMENTED");
+      .withContent(info);
   }
 
   private Mono<Void> getChampion(final ChatInputInteractionEvent event, final String[] args) {
