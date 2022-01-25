@@ -1,6 +1,10 @@
 package com.bubblebot.main.commands;
 
 import com.merakianalytics.orianna.Orianna;
+import com.merakianalytics.orianna.types.common.Queue;
+import com.merakianalytics.orianna.types.core.league.League;
+import com.merakianalytics.orianna.types.core.staticdata.Champion;
+import com.merakianalytics.orianna.types.core.staticdata.Champions;
 import com.merakianalytics.orianna.types.core.summoner.Summoner;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import discord4j.core.object.command.ApplicationCommand;
@@ -58,18 +62,26 @@ public class LeagueCommand implements SlashCommand {
 
   private Mono<Void> getSummoner(final ChatInputInteractionEvent event, final String[] args) {
     final String region = args.length < 2 ? "NA" : args[1];
-    return this.getSummoner(event, args[0], region);
-  }
-
-  private Mono<Void> getSummoner(final ChatInputInteractionEvent event, final String name, final String region) {
-    final Summoner summoner = Orianna.summonerNamed(name).get();
-    final String info = summoner.exists() ?
-      String.format("%s is level %d on the %s server", summoner.getName(), summoner.getLevel(), summoner.getRegion()) :
-      String.format("%s does not exist on the %s server", summoner.getName(), summoner.getRegion());
-
     return event.reply()
       .withEphemeral(true)
-      .withContent(info);
+      .withContent(this.getSummoner(event, args[0], region));
+  }
+
+  private String getSummoner(final ChatInputInteractionEvent event, final String name, final String region) {
+    final Summoner summoner = Orianna.summonerNamed(name).get();
+
+    if(!summoner.exists()) return String.format("%s does not exist on the %s server", summoner.getName(), summoner.getRegion());
+
+    final Champions champions = Orianna.getChampions();
+    final Champion randomChampion = champions.get((int)Math.random() * champions.size());
+    final League challengerLeague = Orianna.challengerLeagueInQueue(Queue.RANKED_SOLO).get();
+    final Summoner bestNA = challengerLeague.get(0).getSummoner();
+
+    String info = String.format("%s is level %d on the %s server%n", summoner.getName(), summoner.getLevel(), summoner.getRegion());
+    info += String.format("They play champions such as %s%n", randomChampion.getName());
+    info += String.format("But are not as good as %s at League", bestNA.getName());
+
+    return info;
   }
 
   private Mono<Void> getChampion(final ChatInputInteractionEvent event, final String[] args) {

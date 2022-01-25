@@ -6,7 +6,11 @@ package com.bubblebot.main;
 
 import com.merakianalytics.orianna.Orianna;
 import com.merakianalytics.orianna.types.common.Platform;
+import com.merakianalytics.orianna.types.common.Queue;
 import com.merakianalytics.orianna.types.common.Region;
+import com.merakianalytics.orianna.types.core.league.League;
+import com.merakianalytics.orianna.types.core.staticdata.Champion;
+import com.merakianalytics.orianna.types.core.staticdata.Champions;
 import com.merakianalytics.orianna.types.core.summoner.Summoner;
 import discord4j.core.DiscordClientBuilder;
 import discord4j.core.GatewayDiscordClient;
