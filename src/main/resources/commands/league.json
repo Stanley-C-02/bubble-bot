@@ -45,8 +45,22 @@
             },
             {
               "name": "category",
-              "description": "Pick one of: lore, skill",
-              "type": 3
+              "description": "Pick one of: General, Lore, or Skill",
+              "type": 3,
+              "choices": [
+                {
+                  "name": "General",
+                  "value": "category_general"
+                },
+                {
+                  "name": "Lore",
+                  "value": "category_lore"
+                },
+                {
+                  "name": "Skill",
+                  "value": "category_skills"
+                }
+              ]
             }
           ]
         }

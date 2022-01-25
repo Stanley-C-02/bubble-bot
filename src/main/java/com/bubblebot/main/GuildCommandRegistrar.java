@@ -1,8 +1,12 @@
 package com.bubblebot.main;
 
+import com.bubblebot.main.commands.LeagueRequest;
+import com.merakianalytics.orianna.types.core.league.League;
 import discord4j.common.JacksonResources;
 import discord4j.discordjson.json.ApplicationCommandData;
 import discord4j.discordjson.json.ApplicationCommandRequest;
+import discord4j.discordjson.json.ImmutableApplicationCommandRequest;
+import discord4j.discordjson.possible.Possible;
 import discord4j.rest.RestClient;
 import discord4j.rest.service.ApplicationService;
 

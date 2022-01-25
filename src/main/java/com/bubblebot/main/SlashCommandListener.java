@@ -10,7 +10,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ServiceLoader;
 import java.util.Set;
 
 public class SlashCommandListener {

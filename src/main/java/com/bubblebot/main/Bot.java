@@ -9,11 +9,8 @@ import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import discord4j.core.event.domain.lifecycle.ReadyEvent;
 import discord4j.core.object.entity.User;
-import discord4j.discordjson.json.ApplicationCommandRequest;
 
 public class Bot {
-  public static String cmdPrefix = "b!";
-
   public static void main(String[] args) {
     final GatewayDiscordClient client = DiscordClientBuilder.create(args[0])
       .build()
@@ -34,7 +31,7 @@ public class Bot {
         System.out.printf("Logged in as %s#%s%n", self.getUsername(), self.getDiscriminator());
       });
 
-    client.getEventDispatcher().on(ChatInputInteractionEvent.class)
+    client.on(ChatInputInteractionEvent.class)
       .flatMap(SlashCommandListener::handle)
       .subscribe();
 
