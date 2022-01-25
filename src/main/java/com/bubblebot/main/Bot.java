@@ -18,17 +18,21 @@ import java.util.Scanner;
 /**
  * Initializes the bot, commands, and listeners to handle functionality
  *
- * Discord4J and Orianna use set environment variables
+ * Discord4J and Orianna use given args, where
+ * - arg[0] is the Discord bot token
+ * - arg[1] is the Discord server ID
+ * - arg[2] is the Riot API key
  */
 public class Bot {
   public static void main(String[] args) {
-    final GatewayDiscordClient client = DiscordClientBuilder.create(System.getenv("DISCORD_TOKEN"))
+    final GatewayDiscordClient client = DiscordClientBuilder.create(args[0])
       .build()
       .login()
       .block();
 
-    final long guildId = 898745468878745631L; // My Testing server
+    final long guildId = Long.parseLong(args[1]); // My Testing server
 //    final long guildId = Long.parseLong(System.getenv("SERVER_ID")); // My Testing server
+    Orianna.setRiotAPIKey(args[2]);
     Orianna.setDefaultRegion(Region.NORTH_AMERICA);
     Orianna.setDefaultPlatform(Platform.NORTH_AMERICA);
 
