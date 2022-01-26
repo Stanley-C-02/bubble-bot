@@ -2,6 +2,7 @@ package com.bubblebot.main;
 
 /**Bubble Bot
  * A discord bot made without Discord4J or Orianna
+ * To learn more about APIs/REST/HTTP(S) requests
  *
  * Initializes the bot, commands, and listeners to handle functionality
  *
