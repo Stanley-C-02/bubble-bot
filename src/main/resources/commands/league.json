@@ -1,0 +1,70 @@
+{
+  "name": "lol",
+  "description": "Performs League-related actions",
+  "options": [
+    {
+      "name": "summoner",
+      "description": "Get information about a summoner",
+      "type": 2,
+      "options": [
+        {
+          "name": "get",
+          "description": "Get general information about a summoner",
+          "type": 1,
+          "options": [
+            {
+              "name": "name",
+              "description": "Summoner name",
+              "type": 3,
+              "required": true
+            },
+            {
+              "name": "region",
+              "description": "Region to search // IGNORED",
+              "type": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "champion",
+      "description": "Get information about a champion",
+      "type": 2,
+      "options": [
+        {
+          "name": "get",
+          "description": "Get general information about a champion",
+          "type": 1,
+          "options": [
+            {
+              "name": "champion",
+              "description": "Name of champion",
+              "type": 3,
+              "required": true
+            },
+            {
+              "name": "category",
+              "description": "Pick one of: General, Lore, or Skill",
+              "type": 3,
+              "choices": [
+                {
+                  "name": "General",
+                  "value": "category_general"
+                },
+                {
+                  "name": "Lore",
+                  "value": "category_lore"
+                },
+                {
+                  "name": "Skill",
+                  "value": "category_skills"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

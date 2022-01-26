@@ -1,12 +1,16 @@
 # Bubble Bot
-A simple Discord bubbleBot made using the Discord4J API.
+A simple Discord bot, named Bubble made using the Discord4J API.
 
-Gradle is used to manage the Discord4J dependency.
+Commands are accessed via slash commands in Discord.
+
+Gradle is used to manage Discord4J and any other dependencies.
 
 Docker is being worked on to allow deployment and hosting on different systems/servers.
 
 ## Commands
-* b!help or b!? - prints some information regarding Bubble Bot
-* b!ping - responds with 'pong!'
-* b!embed - testing embed messages to improve formatting
-* b!* - any invalid commands with b! prefixed are recognized and reported as invalid commands
+~~* help or ? - prints some information regarding Bubble Bot~~
+* ping - responds with 'pong!'
+* greet <name> - greets name
+* lol <summoner|champion> <find> <name> [region] - returns information of a summoner or champion
+~~* b!embed - testing embed messages to improve formatting~~
+~~* b!* - any invalid commands with b! prefixed are recognized and reported as invalid commands~~
