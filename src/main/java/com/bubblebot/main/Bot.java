@@ -12,7 +12,17 @@ package com.bubblebot.main;
  * - arg[2] is the Riot API key
  */
 public class Bot {
-  public static void main(String[] args) {
+  public static String
+    botToken = null,
+    guildId = null,
+    riotAPIKey = null;
+
+  public static void main(final String[] args) {
+    assert(args.length == 3);
+    botToken = args[0];
+    guildId = args[1];
+    riotAPIKey = args[2];
+
     System.out.println("TO BE IMPLEMENTED");
   }
 }
